@@ -15,6 +15,34 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.handlePetsFetch()
+  }
+
+  handlePetsFetch = () => {
+    if (this.state.filters.type === "all"){
+       fetch('/api/pets')
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            pets: [result]
+          })
+        })
+    }else{
+       fetch(`/api/pets?type=${this.state.filters.type}`)
+       .then(res => res.json())
+       .then(
+         (result) => {
+           this.setState({
+             isLoaded: true,
+             pets: [result]
+           })
+         })
+    } 
+  }
+
   render() {
     return (
       <div className="ui container">
